@@ -6,6 +6,11 @@
 .idea/
 .idea/*
 
+.classpath
+.settings
+.settings/*
+.project
+
 # Log file
 *.log
 
