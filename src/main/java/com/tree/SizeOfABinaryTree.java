@@ -23,8 +23,9 @@ public class SizeOfABinaryTree {
             return;
         }
         sizeOfATree(root.left);
-        size++;
+        //size++;
         sizeOfATree(root.right);
+        size++;
     }
 
     static int sizeOfATree(Node root, int size) {
@@ -33,8 +34,9 @@ public class SizeOfABinaryTree {
             return 0;
         }
         sizeOfATree(root.left, size);
-        size++;
+
         sizeOfATree(root.right, size);
+        size++;
         return size;
 
     }
