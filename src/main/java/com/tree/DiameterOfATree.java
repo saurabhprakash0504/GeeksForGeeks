@@ -26,18 +26,6 @@ public class DiameterOfATree {
     }
 
     //FirstMethod
-    static int height(Node root) {
-        if (root == null) {
-            return 0;
-        }
-
-        int leftHeight = height(root.left);
-        int rightHeight = height(root.right);
-        int height = 1 + Integer.max(leftHeight, rightHeight);
-
-        return height;
-
-    }
 
     static int findDiameter(Node root) {
         if (root == null) {
@@ -54,6 +42,21 @@ public class DiameterOfATree {
 
         return Integer.max(Integer.max(diameter, leftDiameter), rightDiameter);
     }
+
+    static int height(Node root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftHeight = height(root.left);
+        int rightHeight = height(root.right);
+        int height = 1 + Integer.max(leftHeight, rightHeight);
+
+        return height;
+
+    }
+
+
 
 
     //SecondMethod

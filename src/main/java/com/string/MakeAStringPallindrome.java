@@ -1,13 +1,27 @@
 package com.string;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class KmpAlgo {
+public class MakeAStringPallindrome {
+
 
     public static void main(String[] args) {
-        String s = "abacabad";
-        System.out.println(Arrays.toString(createLPS(s)));
+        StringBuffer s = new StringBuffer("aabcdd");
+        StringBuffer pallindrome = new StringBuffer(s);
+
+        s.append("$");
+        for(int i=pallindrome.length()-1;i>=0;i--){
+            s.append(pallindrome.charAt(i));
+        }
+        int[] arr = createLPS(s.toString());
+        int val = arr[arr.length-1];
+        int data = pallindrome.length() - val;
+        System.out.println("data "+ data);
+       // StringBuffer pallindrome = new StringBuffer(s);
+        for(int i=data-1;i>=0;i--){
+            pallindrome.insert(0,pallindrome.charAt(pallindrome.length()-(1+i)));
+        }
+        System.out.println("pallindrome "+ pallindrome);
     }
 
     static int[] createLPS(String str) {
