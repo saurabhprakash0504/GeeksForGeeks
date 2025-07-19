@@ -1,7 +1,7 @@
 package com.linkedlist;
 
 public class ReverseALinkedList {
-	static Node head;
+	public static Node head;
 
 	public static void main(String[] args) {
 		ReverseALinkedList list = new ReverseALinkedList();
