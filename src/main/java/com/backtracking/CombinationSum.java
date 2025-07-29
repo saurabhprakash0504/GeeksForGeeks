@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CombinationSum {
+/*
 
+    //Method 1 - ChatGPT - Working
     static ArrayList<ArrayList<Integer>> combinationSum(int[] arr, int target) {
         ArrayList<ArrayList<Integer>> res = new ArrayList<>();
         ArrayList<Integer> l = new ArrayList<>();
@@ -31,6 +33,47 @@ public class CombinationSum {
             find(arr, rem - arr[i], result, l, i); // allow same element again
             l.remove(l.size() - 1);
         }
+    }
+*/
+
+
+    //Method 2 - Take U forward - working
+    static ArrayList<ArrayList<Integer>> combinationSum(int[] arr, int target) {
+
+
+        ArrayList<ArrayList<Integer>> al = new ArrayList<>();
+
+        ArrayList<Integer> l = new ArrayList<>();
+
+
+        find(arr, target, al, l, 0 );
+
+        return al;
+
+
+    }
+
+    static void find(int[] arr, int t, ArrayList<ArrayList<Integer>> al, ArrayList<Integer> l , int ind ){
+
+        if(t == 0){
+            al.add(new ArrayList<>(l));
+            return;
+        }
+
+        if(t < 0 || ind == arr.length){
+            return;
+        }
+
+        //   for(int i=ind;i<arr.length;i++){
+        if(t >= arr[ind]){
+            l.add(arr[ind]);
+            find(arr, t- arr[ind], al, l, ind );
+            l.remove(l.size()-1);
+        }
+        //   }
+
+        find(arr, t, al, l, ind+1);
+
     }
 
     public static void main(String[] args) {
