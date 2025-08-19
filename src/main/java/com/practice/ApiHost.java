@@ -1,13 +1,7 @@
 package com.practice;
 
-import java.time.*;
-import java.lang.*;
-
-import java.util.*;
-
-public class Test {
-
-   /* class WebClient {
+public class ApiHost {
+/*
         // Map of API host to a queue of timeout timestamps (in minutes)
         private Map<String, Deque<Integer>> timeoutMap = new HashMap<>();
 
@@ -51,7 +45,6 @@ public class Test {
                 timeouts.addLast(now);
             }
             return resp;
-        }
-    }
-*/
+        }*/
 }
+

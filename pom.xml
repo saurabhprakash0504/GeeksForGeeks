@@ -13,6 +13,13 @@
                     <source>11</source>
                     <target>11</target>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.sun.net.httpserver</groupId>
+                        <artifactId>http</artifactId>
+                        <version>20070405</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
