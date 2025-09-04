@@ -83,10 +83,32 @@ public class LongestIncreasingSubSequence {
 
         int inc = 0;
         if (maxInd == -1 || arr[ind] > arr[maxInd]) {
-            inc = 1 + findMem(arr, len, ind + 1, ind, dp);
+            inc = 1 + findMem2(arr, len, ind + 1, ind, dp);
         }
 
-        int exc = findMem(arr, len, ind + 1, maxInd, dp);
+        int exc = findMem2(arr, len, ind + 1, maxInd, dp);
+
+
+        return dp[ind][maxInd + 1] = Integer.max(inc, exc);
+
+    }
+
+
+    static int findMem3(ArrayList<Integer> arr, int len, int ind, int maxInd, int[][] dp) {
+        if (ind >= len) {
+            return 0;
+        }
+
+        if (dp[ind][maxInd + 1] != -1) {
+            return dp[ind][maxInd + 1];
+        }
+
+        int inc = 0;
+        if (maxInd == -1 || arr.get(ind) > arr.get(maxInd)) {
+            inc = 1 + findMem3(arr, len, ind + 1, ind, dp);
+        }
+
+        int exc = findMem3(arr, len, ind + 1, maxInd, dp);
 
 
         return dp[ind][maxInd + 1] = Integer.max(inc, exc);
