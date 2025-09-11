@@ -14,74 +14,68 @@ public class CatalanNumber {
         // code here
         // return find(n);
 
-        int[] dp = new int[n+1];
+        int[] dp = new int[n + 1];
         Arrays.fill(dp, -1);
         //return findMem(n, dp);
 
         return findTab(n);
     }
 
-    static int find(int n){
+    static int find(int n) {
 
-        if(n == 1){
+        if (n == 1) {
             return 1;
         }
 
-        if(n == 0){
+        if (n == 0) {
             return 1;
         }
 
         int ans = 0;
-        for(int i =1;i<=n;i++){
-            ans = ans +  (find(i-1) * find(n-i));
+        for (int i = 1; i <= n; i++) {
+            ans = ans + (find(i - 1) * find(n - i));
         }
 
         return ans;
     }
 
 
-    static int findMem(int n, int[] dp){
+    static int findMem(int n, int[] dp) {
 
-        if(n == 1){
+        if (n == 1) {
             return 1;
         }
 
-        if(n == 0){
+        if (n == 0) {
             return 1;
         }
 
-        if(dp[n] != -1){
+        if (dp[n] != -1) {
             return dp[n];
         }
 
         int ans = 0;
-        for(int i =1;i<=n;i++){
-            ans = ans +  (findMem(i-1, dp) * findMem(n-i, dp));
+        for (int i = 1; i <= n; i++) {
+            ans = ans + (findMem(i - 1, dp) * findMem(n - i, dp));
         }
 
         return dp[n] = ans;
     }
 
 
-    static int findTab(int n){
+    static int findTab(int n) {
 
-        int[] dp = new int[n+1];
+        int[] dp = new int[n + 1];
         Arrays.fill(dp, -1);
-
-        dp[0] =1;
-        dp[1] =1;
-
-
-        for(int i=2;i<=n;i++){
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
             int ans = 0;
-            for(int j =1;j<=i;j++){
-                ans = ans +  (dp[j-1] * dp[i-j]);
+            for (int j = 1; j <= i; j++) {
+                ans = ans + (dp[j - 1] * dp[i - j]);
             }
             dp[i] = ans;
         }
-
-
-
-        return dp[n] ;
+        return dp[n];
     }
 }
