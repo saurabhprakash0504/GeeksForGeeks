@@ -70,9 +70,9 @@ public class MinimumCostTreeFromLeafValues {
 
         int ans=Integer.MAX_VALUE;
         for(int i=start;i<end;i++){
-            int max1 = maxLen[start][i];
-            int max2 = maxLen[i+1][end];
-            ans = Integer.min(ans, max1 * max2 + findMem(arr, maxLen, start, i, dp) + findMem(arr, maxLen, i+1, end, dp));
+            int leftMax = maxLen[start][i];
+            int rightMax = maxLen[i+1][end];
+            ans = Integer.min(ans, leftMax * rightMax + findMem(arr, maxLen, start, i, dp) + findMem(arr, maxLen, i+1, end, dp));
         }
 
         return dp[start][end]=ans;
