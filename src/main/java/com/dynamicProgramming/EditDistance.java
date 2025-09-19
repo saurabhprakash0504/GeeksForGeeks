@@ -41,9 +41,10 @@ public class EditDistance {
 
         if (s1.charAt(i) == s2.charAt(j)) {
             return find(s1, s2, i + 1, j + 1);
-        }
+        }else {
 
-        return Integer.min(1 + find(s1, s2, i, j + 1), Integer.min(1 + find(s1, s2, i + 1, j), 1 + find(s1, s2, i + 1, j + 1)));
+            return Integer.min(1 + find(s1, s2, i, j + 1), Integer.min(1 + find(s1, s2, i + 1, j), 1 + find(s1, s2, i + 1, j + 1)));
+        }
     }
 
 
@@ -65,11 +66,11 @@ public class EditDistance {
 
         if (s1.charAt(i) == s2.charAt(j)) {
             return dp[i][j] = findMem(s1, s2, i + 1, j + 1, dp);
+        } else {
+
+            return dp[i][j] = Integer.min(1 + findMem(s1, s2, i, j + 1, dp), Integer.min(1 + findMem(s1, s2, i + 1, j, dp), 1 + findMem(s1, s2, i + 1, j + 1, dp)));
         }
-
-        return dp[i][j] = Integer.min(1 + findMem(s1, s2, i, j + 1, dp), Integer.min(1 + findMem(s1, s2, i + 1, j, dp), 1 + findMem(s1, s2, i + 1, j + 1, dp)));
     }
-
 
     int findTab(String s1, String s2) {
 
