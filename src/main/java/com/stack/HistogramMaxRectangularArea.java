@@ -5,7 +5,7 @@ import java.util.*;
 public class HistogramMaxRectangularArea {
 
     public static void main(String[] args) {
-        int[] arr = {2,1,5,6,2,3};
+        int[] arr = {2, 1, 5, 6, 2, 3};
         System.out.println(getMaxArea(arr));
     }
 
@@ -19,9 +19,14 @@ public class HistogramMaxRectangularArea {
         findPrev(arr, prevSmallerList);
 
         int max = Integer.MIN_VALUE;
-        for(int i=0;i< arr.length;i++){
+        for (int i = 0; i < arr.length; i++) {
+
+            if (nextSmallerList.get(i) == -1) {
+                nextSmallerList.set(i, n);
+            }
 
             int width = nextSmallerList.get(i) - prevSmallerList.get(i) - 1;
+
             int height = arr[i];
 
             max = Integer.max(max, width * height);
@@ -34,7 +39,7 @@ public class HistogramMaxRectangularArea {
     }
 
 
-    static void findNext(int[] arr, ArrayList<Integer> list){
+    static void findNext(int[] arr, ArrayList<Integer> list) {
 
         Stack<Integer> stack = new Stack<Integer>();
         stack.push(-1);
@@ -42,35 +47,9 @@ public class HistogramMaxRectangularArea {
         int n = arr.length;
 
 
-        for(int i=arr.length-1;i>=0;i--){
+        for (int i = arr.length - 1; i >= 0; i--) {
 
-            while(!stack.isEmpty() && stack.peek() != -1 && arr[stack.peek()] >= arr[i]){
-                stack.pop();
-            }
-
-            //This was the error
-            if(stack.peek() == -1){
-                list.set(i, arr.length);
-            } else {
-                list.set(i, stack.peek());
-            }
-            stack.push(i);
-        }
-
-    }
-
-
-    static void findPrev(int[] arr, ArrayList<Integer> list){
-
-        Stack<Integer> stack = new Stack<Integer>();
-        stack.push(-1);
-
-        int n = arr.length;
-
-
-        for(int i=0;i<arr.length;i++){
-
-            while(!stack.isEmpty() && stack.peek() !=-1 && arr[stack.peek()] >= arr[i]){
+            while (!stack.isEmpty() && stack.peek() != -1 && arr[stack.peek()] >= arr[i]) {
                 stack.pop();
             }
 
@@ -78,10 +57,25 @@ public class HistogramMaxRectangularArea {
             stack.push(i);
         }
 
-
-
-
     }
 
+
+    static void findPrev(int[] arr, ArrayList<Integer> list) {
+
+        Stack<Integer> stack = new Stack<Integer>();
+        stack.push(-1);
+
+        int n = arr.length;
+
+        for (int i = 0; i < arr.length; i++) {
+
+            while (!stack.isEmpty() && stack.peek() != -1 && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+
+            list.set(i, stack.peek());
+            stack.push(i);
+        }
+    }
 
 }
