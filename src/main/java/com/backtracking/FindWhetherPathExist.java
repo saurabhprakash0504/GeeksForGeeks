@@ -41,7 +41,8 @@ public class FindWhetherPathExist {
         int c = grid[0].length;
 
         boolean[][] vis = new boolean[r][c];
-        return find(grid, vis, r, c, startRow, startCol, destRow, destCol);
+      //  return find(grid, vis, r, c, startRow, startCol, destRow, destCol);
+        return find2(grid, vis, r, c, startRow, startCol, destRow, destCol);
     }
 
 
@@ -101,6 +102,34 @@ public class FindWhetherPathExist {
 
         return false;
 
+
+    }
+
+    boolean find2(int[][] grid, boolean[][] vis, int r, int c, int startRow, int startCol, int destRow, int destCol) {
+
+        if (startRow == destRow && startCol == destCol) {
+
+            return true;
+        }
+
+        int[] dr = {-1, 1, 0, 0};
+        int[] dc = {0, 0, -1, 1};
+
+        for (int i = 0; i < 4; i++) {
+
+            int nr = startRow + dr[i];
+            int nc = startCol + dc[i];
+            if (nr >= 0 && nc >= 0 && nr < r && nc < c && vis[nr][nc] == false && grid[nr][nc] != 0) {
+                vis[nr][nc] = true;
+                if (find(grid, vis, r, c, nr, nc, destRow, destCol)) {
+                    return true;
+                }
+                vis[nr][nc] = false;
+            }
+
+        }
+
+        return false;
 
     }
 }
