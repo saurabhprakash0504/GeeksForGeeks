@@ -11,153 +11,143 @@ public class KnapsackProbDP {
 
     static int knapsack(int W, int val[], int wt[]) {
         // code here
-        int[][] arr = new int[val.length+1][W+1];
-        for(int i=0;i<=val.length;i++){
-            Arrays.fill(arr[i],-1);
+        // return find(W, val, wt, 0);
+
+       /* int[][] dp = new int[W+1][val.length+1];
+        for(int i=0;i< W+1;i++){
+            Arrays.fill(dp[i], -1);
         }
-        // return findMaxMem(W, val, wt, wt.length-1, arr);
 
-        //return findMaxTab(W, val, wt);
-        return findMaxTabSpace(W,val,wt);
+        return findMem(W, val, wt, 0, dp);*/
 
-        // return findMaxTabSpace2(W,val,wt);
+        //  return findTab(W, val, wt);
+        // return findTab2(W, val, wt);
+        return findTab2SO(W, val, wt);
     }
 
-    static int findMaxMem(int w, int[] val, int[] wt, int ind, int[][] arr){
+    static int find(int w, int val[] ,int[] wt, int ind){
 
-       /* if(ind < 0){
+        if(ind >= val.length){
             return 0;
         }
 
-        if(w <= 0){
+        if(w < 0){
             return 0;
-        }*/
-
-        if(ind ==0){
-            if(wt[0] <= w){
-                return val[0];
-            }else{
-                return 0;
-            }
-        }
-
-        if(arr[ind][w] !=-1){
-            return arr[ind][w];
         }
 
         int inc =0;
-        if(w >= wt[ind]){
-            inc = val[ind]+ findMaxMem(w-wt[ind], val, wt, ind-1, arr);
-        }
+        if(wt[ind] <= w)
+            inc = val[ind] + find(w-wt[ind], val, wt, ind+1);
 
-        int exc = findMaxMem(w, val, wt, ind-1, arr);
+        int exc = find(w, val, wt, ind+1);
 
+        return Integer.max(inc, exc);
 
-
-        return arr[ind][w]= Integer.max(inc, exc);
     }
 
 
-    static int findMaxTab(int w, int[] val, int[] wt){
 
-        int ind = val.length;
-        int[][] arr = new int[ind][w+1];
+    static int findMem(int w, int val[] ,int[] wt, int ind, int[][] dp){
 
-        for(int i=0;i<=w;i++){
-            if(wt[0] <=i){
-                arr[0][i]= val[0];
-            }else{
-                arr[0][i]=0;
-            }
+        if(ind >= val.length){
+            return 0;
         }
 
+        if(w < 0){
+            return 0;
+        }
+
+        if(dp[w][ind] != -1){
+            return dp[w][ind];
+        }
+
+        int inc =0;
+        if(wt[ind] <= w)
+            inc = val[ind] + findMem(w-wt[ind], val, wt, ind+1,dp);
+
+        int exc = findMem(w, val, wt, ind+1, dp);
+
+        return dp[w][ind] = Integer.max(inc, exc);
+
+    }
 
 
-        for(int i=1;i<ind;i++){
-            for(int j=0;j<w+1;j++){
+
+    static int findTab(int wtt, int val[] ,int[] wt){
+
+        int[][] dp = new int[wtt+1][val.length+1];
+
+        for(int w = 0;w <= wtt;w++){
+
+            for(int ind = wt.length-1;ind >=0 ;ind--){
+
                 int inc =0;
-                if(j >= wt[i]){
-                    inc = val[i]+ arr[i-1][j - wt[i]];
-                }
+                if(wt[ind] <= w)
+                    inc = val[ind] + dp[w-wt[ind]] [ind+1];
 
-                int exc = arr [i-1][j];
+                int exc = dp[w] [ind+1];
 
-                arr[i][j]= Integer.max(inc,exc);
+                dp[w][ind] = Integer.max(inc, exc);
+
+
             }
         }
 
-        return arr[ind-1][w] ;
+
+        return dp[wtt][0];
     }
 
 
-    static int findMaxTabSpace(int w, int[] val, int[] wt){
+    static int findTab2(int wtt, int val[] ,int[] wt){
 
-        int ind = val.length;
-
-
-        int[] prev2 = new int[w+1];
-        int[] prev1 = new int[w+1];
-
-        for(int i=0;i<=w;i++){
-            if(wt[0] <=i){
-                prev2[i]= val[0];
-            }else{
-                prev2[i]=0;
-            }
-        }
+        int[][] dp = new int  [val.length+1][wtt+1] ;
 
 
+        for(int ind = wt.length-1;ind >=0 ;ind--){
+            for(int w = 0;w <= wtt;w++){
 
-        for(int i=1;i<ind;i++){
-            for(int j=0;j<w+1;j++){
                 int inc =0;
-                if(j >= wt[i]){
-                    inc = val[i]+ prev2[j - wt[i]];
-                }
+                if(wt[ind] <= w)
+                    inc = val[ind] + dp[ind+1] [w-wt[ind]] ;
 
-                int exc = prev2[j];
+                int exc = dp[ind+1] [w];
 
-                prev1[j]= Integer.max(inc,exc);
+                dp[ind][w] = Integer.max(inc, exc);
+
+
             }
-            prev2 = prev1.clone();
         }
 
-        return prev2[w] ;
+
+        return dp[0][wtt];
     }
 
 
-    static int findMaxTabSpace2(int w, int[] val, int[] wt){
+    static int findTab2SO(int wtt, int val[] ,int[] wt){
 
-        int ind = val.length;
-
-
-        int[] prev2 = new int[w+1];
-        //   int[] prev1 = new int[w+1];
-
-        for(int i=0;i<=w;i++){
-            if(wt[0] <=i){
-                prev2[i]= val[0];
-            }else{
-                prev2[i]=0;
-            }
-        }
+        // int[][] dp = new int  [val.length+1][wtt+1] ;
+        int[] next = new int[wtt+1];
+        int[] curr = new int[wtt+1];
 
 
+        for(int ind = wt.length-1;ind >=0 ;ind--){
+            for(int w = 0;w <= wtt;w++){
 
-        for(int i=1;i<ind;i++){
-            for(int j=w;j>=0;j--){
                 int inc =0;
-                if(j >= wt[i]){
-                    inc = val[i]+ prev2[j - wt[i]];
-                }
+                if(wt[ind] <= w)
+                    inc = val[ind] + next [w-wt[ind]] ;
 
-                int exc = prev2[j];
+                int exc = next [w];
 
-                prev2[j]= Integer.max(inc,exc);
+                curr[w] = Integer.max(inc, exc);
+
+
             }
-            // prev2 = prev1.clone();
+            next = curr.clone();
         }
 
-        return prev2[w] ;
+
+        return next[wtt];
     }
+
 }
