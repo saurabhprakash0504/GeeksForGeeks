@@ -62,18 +62,3 @@ public class StepsByKnight {
 
     }
 }
-
-/*
-class Pairs{
-
-    int r;
-    int c;
-    int s;
-
-    Pairs(int r, int c, int s){
-        this.r = r;
-        this.c = c;
-        this.s = s;
-    }
-
-}*/
