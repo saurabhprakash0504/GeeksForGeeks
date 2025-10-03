@@ -6,6 +6,10 @@ public class NQueensProblem {
 
     public static void main(String[] args) {
 
+        int n = 4;
+        ArrayList<ArrayList<Integer>> result = nQueen(n);
+        System.out.println(result);
+
     }
 
     // User function Template for Java
