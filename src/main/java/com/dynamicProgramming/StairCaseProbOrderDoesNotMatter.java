@@ -76,17 +76,15 @@ public class StairCaseProbOrderDoesNotMatter {
     }
 
 
-    Long findTab(int n, int[] arr, int ind) {
+    Long findTab(int[] arr, int n) {
 
         Long[][] dp = new Long[n + 1][arr.length + 1];
 
-        for (int i = 0; i < n + 1; i++) {
+        for (int i = 0; i <= n; i++) {
             Arrays.fill(dp[i], 0L);
         }
 
-        for (int i = 0; i < arr.length; i++) {
-            dp[0][i] = 1L;
-        }
+        Arrays.fill(dp[0], 1L);
 
         for (int i = 1; i <= n; i++) {
             for (int j = arr.length - 1; j >= 0; j--) {
@@ -98,6 +96,7 @@ public class StairCaseProbOrderDoesNotMatter {
                 dp[i][j] = inc + exc;
             }
         }
+
         return dp[n][0];
     }
 }
