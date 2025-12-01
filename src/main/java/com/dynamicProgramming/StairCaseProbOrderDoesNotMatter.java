@@ -25,7 +25,7 @@ public class StairCaseProbOrderDoesNotMatter {
 
         //  return findMem(n, arr, 0, dp);
 
-        return findTab(n, arr, 0);
+        return findTab(arr, n);
 
 
     }
