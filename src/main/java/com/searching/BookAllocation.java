@@ -1,9 +1,9 @@
 package com.searching;
 
-public class AllocateMinimumPages {
+public class BookAllocation {
 
     public static void main(String[] args) {
-        AllocateMinimumPages obj = new AllocateMinimumPages();
+        BookAllocation obj = new BookAllocation();
         int[] arr = {12, 34, 67, 90};
         int k = 2;
         System.out.println(obj.findPages(arr, k));

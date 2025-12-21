@@ -13,62 +13,85 @@ public class NextPermutation {
 
     static void nextPermutation(int[] arr) {
         // code here
-        int n = arr.length - 1;
-        int small = 0;
-        for (int i = arr.length - 2; i >= 0; i--) {
-            if (arr[i] < arr[i + 1]) {
-                small = i;
-                break;
-            }
-        }
+        find(arr);
+    }
 
-        if (small == 0) {
-            int start = 0;
-            int end = n;
-            while (start < end) {
-                swap(arr, start, end);
-                start++;
-                end--;
+    static void find(int[] arr) {
+
+        //find the low point
+        //find the smallest number
+        //swap
+        //sort the rest
+
+
+        //Finding Low point
+        int ind = findLowPoint(arr);
+        if (ind == -1) {
+            int s = 0;
+            int e = arr.length - 1;
+            while (s <= e) {
+
+                swap(arr, s, e);
+                s++;
+                e--;
             }
             return;
         }
 
-        int smallest = Integer.MAX_VALUE;
-        int index = n;
-        for (int j = n; j > small; j--) {
-            if (arr[j] > arr[small] && arr[j] < smallest) {
-                index = j;
-                smallest = arr[j];
-            }
+        //   Finding Smallest element index
+
+        int smallestEleInd = findSmallestElementIndex(arr, ind);
+
+        // swapping
+
+        swap(arr, ind, smallestEleInd);
+
+        //soring
+
+
+        int s = ind + 1;
+        int e = arr.length - 1;
+        while (s <= e) {
+
+            swap(arr, s, e);
+            s++;
+            e--;
         }
 
-        swap(arr, index, small);
-
-        //END
-
-      /*  for (int i = N - 1; i > ind; i--) {
-            if (arr[i] > arr[ind]) {
-                swap(i, ind, arr);
-                ind++;
-                break;
-            }
-        }*/
-
-        //END arr[
-
-        int start = small + 1;
-        int end = n;
-        while (start < end) {
-            swap(arr, start, end);
-            start++;
-            end--;
-        }
-
+        //  System.out.println("final  >> "+ Arrays.toString(arr));
     }
 
-    static void swap(int[] arr, int smallest, int small) {
-        int temp = arr[smallest];
-        arr[smallest] = arr[small];
-        arr[small] = temp;
+    static int findLowPoint(int[] arr) {
+
+        for (int i = arr.length - 2; i >= 0; i--) {
+            if (arr[i] < arr[i + 1]) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+
+    static int findSmallestElementIndex(int[] arr, int ind) {
+
+        int smallestValue = Integer.MAX_VALUE;
+        int smallInd = arr.length - 1;
+
+        for (int i = arr.length - 1; i > ind; i--) {
+            if (arr[i] > arr[ind] && arr[i] < smallestValue) {
+                smallInd = i;
+                smallestValue = arr[smallInd];
+            }
+        }
+
+        return smallInd;
+    }
+
+    static void swap(int[] arr, int ind, int smallestEleInd) {
+
+        int temp = arr[ind];
+        arr[ind] = arr[smallestEleInd];
+        arr[smallestEleInd] = temp;
     }
 }
