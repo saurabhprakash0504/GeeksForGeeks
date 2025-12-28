@@ -15,8 +15,6 @@ public class PhoneDirectory {
 
     }
 
-    // User function Template for Java
-
     static ArrayList<ArrayList<String>> displayContacts(int n, String contact[],
                                                         String s) {
         ArrayList<ArrayList<String>> finalList = new ArrayList<>();
@@ -50,20 +48,20 @@ public class PhoneDirectory {
     }
 
 
-    static void search(String s, ArrayList<ArrayList<String>> finalList, TrieNodes root, String prev) {
+    static void search(String s, ArrayList<ArrayList<String>> finalList, TrieNodes prevNode, String prev) {
 
         for (int i = 0; i < s.length(); i++) {
             char lastch = s.charAt(i);
             prev = prev + lastch;
             int ind = lastch - 'a';
-            TrieNodes[] curr = root.character;
+            TrieNodes[] curr = prevNode.character;
             if (curr[ind] != null) {
                 ArrayList<String> temp = new ArrayList<String>();
                 printSuggestions(curr[ind], prev, temp);
 
                 finalList.add(temp);
                 temp = null;
-                root = curr[ind];
+                prevNode = curr[ind];
 
             } else {
                 while (i < s.length()) {
