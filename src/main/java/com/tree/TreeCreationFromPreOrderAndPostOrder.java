@@ -18,6 +18,7 @@ public class TreeCreationFromPreOrderAndPostOrder {
     }
 
 
+    //YT - NEETCODE
     static int preIndex;
 
     public static Node buildTree(int preOrder[], int postorder[]) {
@@ -37,19 +38,77 @@ public class TreeCreationFromPreOrderAndPostOrder {
         }
 
 
-
         Node curr = new Node(preOrder[preIndex]);
         int index = map.get(curr.data);
         preIndex++;
 
         int leftLength = index - preOrderStart;
-        int rightLength = preOrderEnd - (index+1);
+        int rightLength = preOrderEnd - (index + 1);
 
         curr.left = build(preOrder, postorder, map, preOrderStart, index - 1);
         // Important: build right subtree first because we're going from end to start
-        curr.right = build(preOrder, postorder, map, index + 1, preOrderEnd-1);
+        curr.right = build(preOrder, postorder, map, index + 1, preOrderEnd - 1);
 
 
         return curr;
+    }
+
+    //YT- Jenny lecture
+
+    public Node constructTree(int[] pre, int[] post) {
+        // code here
+
+        HashMap<Integer, Node> map = new HashMap<>();
+        Node root = new Node(pre[0]);
+        map.put(pre[0], root);
+        find(pre, post, map);
+
+        return root;
+    }
+
+
+    void find(int[] pre, int[] post, HashMap<Integer, Node> map) {
+
+        int index = 1;
+
+        while (index < pre.length) {
+
+            int val = pre[index];
+            index++;
+
+            int postIndex = -1;
+            for (int i = 0; i < post.length; i++) {
+                if (post[i] == val) {
+                    postIndex = i;
+                    break;
+
+                }
+            }
+
+            for (int i = postIndex + 1; i < post.length; i++) {
+
+                if (map.containsKey(post[i])) {
+                    //    System.out.println("val >> "+ val);
+
+                    Node node = map.get(post[i]);
+
+                    //  System.out.println("prevNodeVal >>"+ node.data);
+
+                    Node newNode = new Node(val);
+
+                    if (node.left == null) {
+                        node.left = newNode;
+                        map.put(val, newNode);
+                        break;
+                    } else {
+                        node.right = newNode;
+                        map.put(val, newNode);
+                        break;
+                    }
+
+                }
+
+            }
+        }
     }
 }
