@@ -12,19 +12,39 @@ public class CountOfDistinctSubStrings {
     }
 
     public static int countSubs(String s) {
-        // code here
-        //return findIternative(s);
-
         TrieNode1 root = new TrieNode1();
-        count = 0;
+        int count = 0;
         for (int i = 0; i < s.length(); i++) {
-            countDistinct(s, i, root);
+
+            count = count + countDistinct(s, i, root);
         }
 
         return count;
     }
 
-    static int count = 0;
+
+    static int countDistinct(String s, int ind, TrieNode1 root) {
+
+        if (ind == s.length()) {
+            return 0;
+        }
+
+        char c = s.charAt(ind);
+
+        int val = c - 'a';
+
+        if (root.character[val] == null) {
+            //count++;
+            TrieNode1 dummy = new TrieNode1();
+            root.character[val] = dummy;
+
+            return 1 + countDistinct(s, ind + 1, root.character[val]);
+        }
+        return countDistinct(s, ind + 1, root.character[val]);
+
+    }
+
+    //METHOD 2 = - using HashSet -- It is giving TLE for large inputs
 
     static int findIternative(String s) {
         HashSet<String> set = new HashSet<>();
@@ -37,25 +57,6 @@ public class CountOfDistinctSubStrings {
         }
         // System.out.println("set "+ set);
         return set.size();
-    }
-
-    static void countDistinct(String s, int ind, TrieNode1 root) {
-
-        if (ind == s.length()) {
-            return;
-        }
-
-        char c = s.charAt(ind);
-
-        int val = c - 'a';
-
-        if (root.character[val] == null) {
-            count++;
-            TrieNode1 dummy = new TrieNode1();
-            root.character[val] = dummy;
-        }
-        countDistinct(s, ind + 1, root.character[val]);
-
     }
 
 
