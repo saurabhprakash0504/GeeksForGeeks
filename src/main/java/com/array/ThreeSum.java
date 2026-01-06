@@ -29,13 +29,11 @@ public class ThreeSum {
 
 
             int firstInd = i;
-
             int secInd = firstInd + 1;
             int thirdInd = arr.length - 1;
 
-
             ArrayList<Integer> al = new ArrayList<>();
-            while (secInd < arr.length && thirdInd > firstInd && secInd < thirdInd) {
+            while (secInd < thirdInd) {
 
                 if (arr[firstInd] + arr[secInd] + arr[thirdInd] == 0) {
                     al.add(arr[firstInd]);
@@ -66,7 +64,6 @@ public class ThreeSum {
             }
 
         }
-
 
     }
 }
