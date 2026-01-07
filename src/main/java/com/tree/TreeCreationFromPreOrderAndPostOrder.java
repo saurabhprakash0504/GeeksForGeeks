@@ -9,45 +9,46 @@ public class TreeCreationFromPreOrderAndPostOrder {
         int[] preOrder = {1, 2, 4, 5, 3, 6, 7};
         int[] postOrder = {4, 5, 2, 6, 7, 3, 1};
 
-        //  Node node = buildTree(inOrder, postorder);
-
-        Node root = buildTree(preOrder, postOrder);
-
+        Node root = constructTree1(preOrder, postOrder);
 
         System.out.println(root);
     }
 
 
     //YT - NEETCODE
+    public static Node constructTree1(int[] pre, int[] post) {
+        return buildTree(pre, post);
+    }
+
+
     static int preIndex;
 
-    public static Node buildTree(int preOrder[], int postorder[]) {
+    public static Node buildTree(int preOrder[], int postOrder[]) {
         preIndex = 0;
 
         HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < postorder.length; i++) {
-            map.put(postorder[i], i);
+        for (int i = 0; i < postOrder.length; i++) {
+            map.put(postOrder[i], i);
         }
 
-        return build(preOrder, postorder, map, 0, preOrder.length - 1);
+        return build(preOrder, postOrder, map, 0, postOrder.length - 1);
     }
 
-    static Node build(int preOrder[], int postorder[], HashMap<Integer, Integer> map, int preOrderStart, int preOrderEnd) {
-        if (preOrderStart > preOrderEnd) {
+    static Node build(int preOrder[], int postorder[], HashMap<Integer, Integer> map, int postOrderStart, int postOrderEnd) {
+        if (preIndex >= preOrder.length || postOrderStart > postOrderEnd) {
             return null;
         }
 
+        Node curr = new Node(preOrder[preIndex++]);
 
-        Node curr = new Node(preOrder[preIndex]);
-        int index = map.get(curr.data);
-        preIndex++;
+        if (postOrderStart == postOrderEnd) return curr;
 
-        int leftLength = index - preOrderStart;
-        int rightLength = preOrderEnd - (index + 1);
+        int leftRootVal = preOrder[preIndex];
+        int index = map.get(leftRootVal);
 
-        curr.left = build(preOrder, postorder, map, preOrderStart, index - 1);
-        // Important: build right subtree first because we're going from end to start
-        curr.right = build(preOrder, postorder, map, index + 1, preOrderEnd - 1);
+        curr.left = build(preOrder, postorder, map, postOrderStart, index);
+
+        curr.right = build(preOrder, postorder, map, index + 1, postOrderEnd - 1);
 
 
         return curr;
@@ -55,7 +56,7 @@ public class TreeCreationFromPreOrderAndPostOrder {
 
     //YT- Jenny lecture
 
-    public Node constructTree(int[] pre, int[] post) {
+    public Node constructTree2(int[] pre, int[] post) {
         // code here
 
         HashMap<Integer, Node> map = new HashMap<>();
