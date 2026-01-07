@@ -17,39 +17,44 @@ public class TreeCreationFromPreOrderAndPostOrder {
 
     //YT - NEETCODE
     public static Node constructTree1(int[] pre, int[] post) {
-        return buildTree(pre, post);
+        // code here
+        HashMap<Integer, Integer> map = new HashMap<>();
+        createMap(post, map);
+
+        return createTree(pre, post, map, 0, post.length - 1);
+
     }
 
+    static void createMap(int[] post, HashMap<Integer, Integer> map) {
 
-    static int preIndex;
-
-    public static Node buildTree(int preOrder[], int postOrder[]) {
-        preIndex = 0;
-
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < postOrder.length; i++) {
-            map.put(postOrder[i], i);
+        for (int i = 0; i < post.length; i++) {
+            map.put(post[i], i);
         }
 
-        return build(preOrder, postOrder, map, 0, postOrder.length - 1);
     }
 
-    static Node build(int preOrder[], int postorder[], HashMap<Integer, Integer> map, int postOrderStart, int postOrderEnd) {
-        if (preIndex >= preOrder.length || postOrderStart > postOrderEnd) {
+
+    static int preInd = 0;
+
+    static Node createTree(int[] pre, int[] post, HashMap<Integer, Integer> map, int postStartInd, int postEndInd) {
+
+
+        if (postStartInd > postEndInd) {
             return null;
         }
 
-        Node curr = new Node(preOrder[preIndex++]);
+        Node curr = new Node(pre[preInd]);
+        preInd++;
 
-        if (postOrderStart == postOrderEnd) return curr;
+        //This symbolises leaf node
+        if (postStartInd == postEndInd) return curr;
 
-        int leftRootVal = preOrder[preIndex];
-        int index = map.get(leftRootVal);
+        int newPreVal = pre[preInd];
 
-        curr.left = build(preOrder, postorder, map, postOrderStart, index);
+        int postInd = map.get(newPreVal);
 
-        curr.right = build(preOrder, postorder, map, index + 1, postOrderEnd - 1);
-
+        curr.left = createTree(pre, post, map, postStartInd, postInd);
+        curr.right = createTree(pre, post, map, postInd + 1, postEndInd - 1);
 
         return curr;
     }
