@@ -34,28 +34,24 @@ public class FlattenALinkedList {
 
     public Node4 flatten(Node4 root) {
         // code here
-        if(root == null){
+        if (root == null) {
             return root;
         }
         Node4 prevRoot = flatten(root.next);
-        //  Node4 currRoot = flatten(prevRoot);
 
         Node4 root1 = merge(root, prevRoot);
 
-        return root;
+        return root1;
 
     }
 
-    Node4 merge(Node4 prevRoot, Node4 currRoot){
+    Node4 merge(Node4 prevRoot, Node4 currRoot) {
 
-        // System.out.println("prevRoot "+ prevRoot.data);
-        //    System.out.println("currRoot "+ currRoot.data);
-
-        if(prevRoot == null){
+        if (prevRoot == null) {
             return currRoot;
         }
 
-        if(currRoot == null){
+        if (currRoot == null) {
             return prevRoot;
         }
 
@@ -63,15 +59,15 @@ public class FlattenALinkedList {
         Node4 newRootTail = newRootHead;
 
 
-        while(prevRoot != null && currRoot != null ){
+        while (prevRoot != null && currRoot != null) {
 
-            if(prevRoot.data < currRoot.data){
+            if (prevRoot.data < currRoot.data) {
                 Node4 bottom = prevRoot.bottom;
                 prevRoot.next = null;
                 newRootTail.bottom = prevRoot;
                 prevRoot = bottom;
                 newRootTail = newRootTail.bottom;
-            }else {
+            } else {
                 Node4 bottom = currRoot.bottom;
                 currRoot.next = null;
                 newRootTail.bottom = currRoot;
@@ -81,17 +77,18 @@ public class FlattenALinkedList {
 
         }
 
-        if(prevRoot != null){
+        if (prevRoot != null) {
             newRootTail.bottom = prevRoot;
         }
 
-        if(currRoot != null){
+        if (currRoot != null) {
             newRootTail.bottom = currRoot;
         }
 
-        return newRootHead;
+        return newRootHead.bottom;
     }
 }
+
 
 class Node4 {
     int data;
