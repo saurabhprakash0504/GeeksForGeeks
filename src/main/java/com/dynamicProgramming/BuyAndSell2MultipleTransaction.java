@@ -98,18 +98,13 @@ public class BuyAndSell2MultipleTransaction {
 
     int findTabSO(int[] prices){
 
-        int nextInd =0;
-        int nextBuy =0;
-
-        int currInd=0;
-        int currBuy=0;
-
         int[] next = new int[2];
         int[] curr = new int[2];
 
         for(int ind = prices.length-1;ind >=0;ind--){
 
             for(int isBuy= 0;isBuy <2;isBuy++){
+
                 int buy = 0;
                 int sell =0;
                 if(isBuy == 1){
