@@ -79,39 +79,64 @@ public class CloneListWithRandomAndNext {
 
     //METHOD 2 - OPTIMIZED APPROACH
     public Node5 cloneLinkedList(Node5 head) {
-        if (head == null) return null;
 
         Node5 curr = head;
+        Node5 cloneHead = new Node5(-1);
+        Node5 cloneTail = cloneHead;
 
-        // Step 1: Insert clone nodes after each original node
-        while (curr != null) {
-            Node5 copy = new Node5(curr.data);
-            copy.next = curr.next;
-            curr.next = copy;
-            curr = copy.next;
+        //Step 1
+        while(curr != null){
+            Node5 next = curr.next;
+            int data = curr.data;
+            Node5 temp = new Node5(data);
+            cloneTail.next = temp;
+            cloneTail = cloneTail.next;
+            curr = next;
         }
 
-        // Step 2: Set random pointers for clone nodes
+        //Step 2
         curr = head;
-        while (curr != null) {
-            if (curr.random != null) {
-                curr.next.random = curr.random.next;
-            }
+        Node5 cloneCurr = cloneHead.next;
+        while(curr != null){
+            Node5 next = curr.next;
+            curr.next = cloneCurr;
+
+            Node5 cloneNext = cloneCurr.next;
+            cloneCurr.next = next;
+
+            curr = next;
+            cloneCurr = cloneNext;
+        }
+
+        //Step 3
+        curr = head;
+        cloneCurr = cloneHead.next;
+        while(curr != null && cloneCurr != null ){
+            Node5 currRandom = curr.random;
+            cloneCurr.random =  (currRandom != null) ? currRandom.next : null;
+
             curr = curr.next.next;
+            if(cloneCurr.next != null)
+                cloneCurr = cloneCurr.next.next;
+            else
+                break;
         }
 
-        // Step 3: Separate the original and clone lists
+
+        //Step 4
         curr = head;
-        Node5 cloneHead = head.next;
+        cloneCurr = cloneHead.next;
+        while(curr != null && cloneCurr != null){
 
-        while (curr != null) {
-            Node5 copy = curr.next;
-            curr.next = copy.next;
-            copy.next = (copy.next != null) ? copy.next.next : null;
+            curr.next = cloneCurr.next;
             curr = curr.next;
-        }
 
-        return cloneHead;
+            if(curr != null){
+                cloneCurr.next = curr.next;
+            }
+            cloneCurr = cloneCurr.next;
+        }
+        return cloneHead.next;
     }
 }
 
