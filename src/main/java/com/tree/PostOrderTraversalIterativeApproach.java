@@ -28,6 +28,7 @@ public class PostOrderTraversalIterativeApproach {
     }
 
     //YT - Take U forward
+    //2 stacks
     void findIterative(Node root, ArrayList<Integer> al) {
 
         Stack<Node> stack1 = new Stack<Node>();
