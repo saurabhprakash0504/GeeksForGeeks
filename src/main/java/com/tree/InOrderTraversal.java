@@ -1,27 +1,48 @@
 package com.tree;
 
+import java.util.Stack;
+
 public class InOrderTraversal {
 
     public static void main(String[] args) {
-        Node tree = new Node(10);
-        tree.left = new Node(20);
-        tree.left.left = new Node(40);
-        tree.left.right = new Node(50);
-        tree.left.right.left = new Node(70);
-        tree.left.right.right = new Node(80);
-        tree.right = new Node(30);
-        tree.right.right = new Node(60);
+        Node tree = new Node(1);
+        tree.left = new Node(2);
+        tree.left.left = new Node(4);
+        tree.left.right = new Node(5);
+        tree.right = new Node(3);
 
-        inOrderTraversal(tree);
+        findIterative(tree);
     }
 
-    static void inOrderTraversal(Node root){
-        if (root == null){
+    static void inOrderTraversal(Node root) {
+        if (root == null) {
             return;
         }
         inOrderTraversal(root.left);
         System.out.println(root.data);
         inOrderTraversal(root.right);
+
+    }
+
+
+    static void findIterative(Node root) {
+
+        Stack<Node> stack = new Stack<Node>();
+        Node curr = root;
+
+        while (curr != null || !stack.isEmpty()) {
+
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+
+            curr = stack.pop();
+            System.out.println(curr.data);
+            curr = curr.right;
+
+        }
+
 
     }
 }
