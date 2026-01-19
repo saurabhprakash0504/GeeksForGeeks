@@ -9,6 +9,7 @@ public class LongestPallindromicSubstring {
         System.out.println(obj.getLongestPal(s));
     }
 
+    //METHOD 1 - NEETCODE
     public String getLongestPal(String s) {
         // code here
         return find(s);
