@@ -6,7 +6,9 @@ public class LongestPallindromicSubstring {
 
         LongestPallindromicSubstring obj = new LongestPallindromicSubstring();
         String s = "babad";
-        System.out.println(obj.getLongestPal(s));
+        //System.out.println(obj.getLongestPal(s));
+
+        System.out.println(obj.find2(s,s.length()));
     }
 
     //METHOD 1 - NEETCODE
@@ -56,5 +58,56 @@ public class LongestPallindromicSubstring {
 
         return maxString;
 
+    }
+
+    //METHOD 2 - CODING WITH ALISHA
+    String find2(String s, int len){
+        int maxLength =1;
+        String maxString = String.valueOf(s.charAt(0));
+
+        int[][] dp = new int[len][len];
+
+        for(int i=0;i<len;i++){
+            dp[i][i]=1;
+        }
+
+        for(int i=0;i<len-1;i++){
+            int j=i+1;
+
+            if(s.charAt(i) == s.charAt(j)){
+                int tempLen = j-i +1;
+
+                if(tempLen > maxLength){
+                    maxLength = tempLen;
+                    maxString = s.substring(i,j+1);
+                }
+                dp[i][j] =2;
+            }
+
+        }
+
+
+        int k=0;
+        for(int col = 2; col < len; col++){
+            for(int row=0;row<=k;row++){
+
+                if (s.charAt(row) == s.charAt(col)){
+                    int val = dp[row+1][col-1];
+                    if(val == 0){
+                        dp[row][col] = 0;
+                    }else{
+                        dp[row][col] = val+2;
+                        int tempLen = dp[row][col];
+                        if(tempLen > maxLength){
+                            maxLength = tempLen;
+                            maxString = s.substring(row,col+1);
+                        }
+                    }
+                }
+            }
+            k++;
+        }
+
+        return maxString;
     }
 }
