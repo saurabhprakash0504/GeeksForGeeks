@@ -1,6 +1,8 @@
 package com.tree;
 
+import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 public class PostOrderTraversalIterativeApproach {
@@ -20,11 +22,34 @@ public class PostOrderTraversalIterativeApproach {
 
         ArrayList<Integer> al = new ArrayList<>();
 
-        PostOrderTraversalIterativeApproach obj = new PostOrderTraversalIterativeApproach();
+     /*   PostOrderTraversalIterativeApproach obj = new PostOrderTraversalIterativeApproach();
         obj.findIterative(tree, al);
 
+        System.out.println(al);*/
+
+        PostOrderTraversalIterativeApproach obj = new PostOrderTraversalIterativeApproach();
+        obj.find(tree, al);
+        Collections.reverse(al);
         System.out.println(al);
 
+    }
+
+    //GEMINI HELP
+    void find(Node root, ArrayList<Integer> al) {
+        Stack<Node> stack = new Stack<>();
+        Node curr = root;
+        while (curr != null || !stack.isEmpty()) {
+
+            while (curr != null) {
+                al.add(curr.data);
+                stack.push(curr);
+                curr = curr.right;
+            }
+
+            Node temp = stack.pop();
+            curr = temp.left;
+
+        }
     }
 
     //YT - Take U forward
@@ -53,4 +78,6 @@ public class PostOrderTraversalIterativeApproach {
         }
 
     }
+
+
 }
