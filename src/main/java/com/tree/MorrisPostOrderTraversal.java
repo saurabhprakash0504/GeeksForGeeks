@@ -1,6 +1,7 @@
 package com.tree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MorrisPostOrderTraversal {
 
@@ -27,36 +28,38 @@ public class MorrisPostOrderTraversal {
     void morrisTraversal(Node root, ArrayList<Integer> al){
 
         Node curr = root;
-        while(curr != null){
 
-            //IF LEFT IS NOT NULL
-            if(curr.left != null){
-                Node temp = curr.left;
-                while(temp != null &&  temp.right != null && temp.right != curr){
+        while (curr != null) {
 
-                    temp = temp.right;
+            // IF RIGHT IS NOT NULL (mirror of your left logic)
+            if (curr.right != null) {
 
+                Node temp = curr.right;
+                while (temp.left != null && temp.left != curr) {
+                    temp = temp.left;
                 }
-                //TO CREATE LINK && ADD CURR VALUE
-                if( temp.right == null){
-                    al.add(curr.data);
-                    temp.right = curr;
-                    curr = curr.left;
+
+                // CREATE LINK & ADD VALUE
+                if (temp.left == null) {
+                    al.add(curr.data);      // still add on first visit
+                    temp.left = curr;       // thread on LEFT instead of RIGHT
+                    curr = curr.right;      // go RIGHT first
                 }
-                //TO REMOVE LINK
+                // REMOVE LINK
                 else {
-                    temp.right = null;
-                    curr = curr.right;
+                    temp.left = null;
+                    curr = curr.left;       // then go LEFT
                 }
-
             }
-            //IF LEFT IS NULL
-            else{
+            // IF RIGHT IS NULL
+            else {
                 al.add(curr.data);
-                curr = curr.right;
+                curr = curr.left;
             }
-
         }
 
+        // FINAL STEP: reverse to convert root→right→left into postorder
+        Collections.reverse(al);
     }
+
 }
