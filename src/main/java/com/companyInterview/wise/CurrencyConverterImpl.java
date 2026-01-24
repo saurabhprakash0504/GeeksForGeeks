@@ -19,23 +19,35 @@ public class CurrencyConverterImpl {
     }
 
 
-    private final Map<String, Map<String, Double>> graph = new HashMap<>();
+    private Map<String, Map<String, Double>> graph = new HashMap<>();
 
     // Add a direct exchange rate
     public void addRate(String from, String to, double rate) {
-        graph.computeIfAbsent(from, k -> new HashMap<>()).put(to, rate);
-        graph.computeIfAbsent(to, k -> new HashMap<>()).put(from, 1.0 / rate);
+
+        // Add "from" → "to"
+        if (!graph.containsKey(from)) {
+            graph.put(from, new HashMap<String, Double>());
+        }
+        graph.get(from).put(to, rate);
+
+        // Add reverse "to" → "from"
+        if (!graph.containsKey(to)) {
+            graph.put(to, new HashMap<String, Double>());
+        }
+        graph.get(to).put(from, 1.0 / rate);
     }
 
-    // Convert amount from one currency to another
     public double convert(String from, String to, double amount) {
+
         if (!graph.containsKey(from) || !graph.containsKey(to)) {
             throw new IllegalArgumentException("Unknown currency");
         }
 
-        if (from.equals(to)) return amount;
+        if (from.equals(to)) {
+            return amount;
+        }
 
-        Set<String> visited = new HashSet<>();
+        Set<String> visited = new HashSet<String>();
         double rate = dfs(from, to, 1.0, visited);
 
         if (rate == -1.0) {
@@ -45,19 +57,24 @@ public class CurrencyConverterImpl {
         return amount * rate;
     }
 
-    // DFS to find conversion path
     private double dfs(String current, String target, double accumulatedRate, Set<String> visited) {
-        if (current.equals(target)) return accumulatedRate;
+
+        if (current.equals(target)) {
+            return accumulatedRate;
+        }
 
         visited.add(current);
 
-        for (Map.Entry<String, Double> entry : graph.get(current).entrySet()) {
-            String next = entry.getKey();
-            double rate = entry.getValue();
+        Map<String, Double> neighbors = graph.get(current);
 
+        for (String next : neighbors.keySet()) {
             if (!visited.contains(next)) {
-                double result = dfs(next, target, accumulatedRate * rate, visited);
-                if (result != -1.0) return result;
+                double nextRate = neighbors.get(next);
+                double result = dfs(next, target, accumulatedRate * nextRate, visited);
+
+                if (result != -1.0) {
+                    return result;
+                }
             }
         }
 
