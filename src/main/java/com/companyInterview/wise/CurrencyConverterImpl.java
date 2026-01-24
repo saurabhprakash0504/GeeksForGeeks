@@ -48,13 +48,23 @@ public class CurrencyConverterImpl {
         }
 
         Set<String> visited = new HashSet<String>();
-        double rate = dfs(from, to, 1.0, visited);
+        Result result = new Result();
 
-        if (rate == -1.0) {
+       // double rate = dfs(from, to, 1.0, visited);
+
+        /*if (rate == -1.0) {
             throw new IllegalArgumentException("No conversion path found");
         }
 
-        return amount * rate;
+        return amount * rate;*/
+
+        boolean found = dfs(from, to, 1.0, visited, result);
+
+        if (!found) {
+            throw new IllegalArgumentException("No conversion path found");
+        }
+
+        return amount * result.rate;
     }
 
     private double dfs(String current, String target, double accumulatedRate, Set<String> visited) {
@@ -80,6 +90,41 @@ public class CurrencyConverterImpl {
 
         return -1.0; // no path found
     }
+
+    private boolean dfs(String current,
+                        String target,
+                        double accumulatedRate,
+                        Set<String> visited,
+                        Result result) {
+
+        if (current.equals(target)) {
+            result.rate = accumulatedRate;
+            return true;
+        }
+
+        visited.add(current);
+
+        Map<String, Double> neighbors = graph.get(current);
+
+        for (String next : neighbors.keySet()) {
+            if (!visited.contains(next)) {
+
+                double nextRate = accumulatedRate * neighbors.get(next);
+
+                // If path found, bubble up success
+                if (dfs(next, target, nextRate, visited, result)) {
+                    return true;
+                }
+            }
+        }
+
+        // Backtrack
+        visited.remove(current);
+        return false;
+    }
+
 }
 
-
+class Result {
+    double rate;
+}
