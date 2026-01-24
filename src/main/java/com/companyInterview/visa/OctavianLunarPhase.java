@@ -3,6 +3,38 @@ package com.companyInterview.visa;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/*
+
+    Octavian Lunar Phase
+
+    In the land of Octavia, the lunar cycle consists of 8 distinct phases that repeat in a fixed order:
+    NewMoon, Crescent, Quarter, Gibbous, Full, Waning, Eclipse, Twilight.
+
+    The months in Octavia have the same number of days as the Gregorian calendar:
+    January (31), February (28), March (31), April (30), May (31), June (30),
+    July (31), August (31), September (30), October (31), November (30), December (31).
+
+    You are given:
+
+    • a season name
+    • a day number within that season
+    • the lunar phase on January 1st
+
+    Given a starting month, a day count, and an initial lunar phase,
+    determine the lunar phase after the specified number of days have passed.
+
+    Example:
+    Input: season = "January", dayCount = 4, initialPhase = "Full"
+    Output: "Waning"
+
+    Input: season = "March", dayCount = 7, initialPhase = "Crescent"
+    Output: "Gibbous"
+
+    Input: season = "April", dayCount = 1, initialPhase = "Gibbous"
+    Output: "Full"
+
+ */
+
 public class OctavianLunarPhase {
 
     public static void main(String[] args) {
