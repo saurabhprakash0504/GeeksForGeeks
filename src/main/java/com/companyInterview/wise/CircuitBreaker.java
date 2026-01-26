@@ -15,7 +15,47 @@ public class CircuitBreaker {
 
     public static void main(String[] args) {
         System.out.println("Circuit Breaker Implementation");
+        CircuitBreaker cb = new CircuitBreaker();
+
+        long t = 0;
+
+        // Service B: trigger OPEN after 3 failures within TEN_MIN
+        System.out.println("B fail1 allowed=" + cb.execute("B", t += 1000, true)); // allowed (still closed)
+        System.out.println("B fail2 allowed=" + cb.execute("B", t += 1000, true)); // allowed
+        System.out.println("B fail3 allowed=" + cb.execute("B", t += 1000, true)); // triggers OPEN -> returns false
+        long openedAtB = t;
+
+        // Request during OPEN should be blocked
+        System.out.println("B request during open allowed=" + cb.execute("B", t += 1000, false)); // false
+
+        // Advance to exactly FIVE_MIN after openedAt to allow a half-open probe
+        t = openedAtB + FIVE_MIN;
+        System.out.println("B half-open probe allowed=" + cb.execute("B", t, false)); // transitions OPEN->HALF_OPEN and allows probe (returns true)
+
+        // Probe succeeds -> circuit should close
+        System.out.println("B probe result (success) allowed=" + cb.execute("B", t + 1, false)); // HALF_OPEN sees success -> CLOSED
+
+        // Service C: failures spaced out beyond TEN_MIN should not open circuit
+        System.out.println("C fail1 allowed=" + cb.execute("C", t += 1000, true)); // allowed
+        System.out.println("advance time beyond TEN_MIN to expire previous failures");
+        t += TEN_MIN + 1000;
+        System.out.println("C fail2 allowed=" + cb.execute("C", t, true)); // allowed (previous expired)
+        System.out.println("C fail3 allowed=" + cb.execute("C", t + 1000, true)); // still allowed (only 2 within TEN_MIN)
+
+        // Demonstrate HALF_OPEN failure -> re-open
+        // Re-trigger B to open again quickly
+        System.out.println("Re-trigger B: fail1 allowed=" + cb.execute("B", t += 1000, true));
+        System.out.println("Re-trigger B: fail2 allowed=" + cb.execute("B", t += 1000, true));
+        System.out.println("Re-trigger B: fail3 allowed=" + cb.execute("B", t += 1000, true)); // opens
+        long openedAtB2 = t;
+
+        // Advance to half-open and make the probe fail
+        t = openedAtB2 + FIVE_MIN;
+        System.out.println("B half-open probe allowed=" + cb.execute("B", t, false)); // allow probe
+        System.out.println("B probe result (failure) allowed=" + cb.execute("B", t + 1, true)); // HALF_OPEN sees failure -> re-open (returns false)
     }
+
+
 
     private static final long TEN_MIN = 10 * 60 * 1000;
 
