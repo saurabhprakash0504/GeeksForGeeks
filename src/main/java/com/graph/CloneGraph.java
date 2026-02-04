@@ -1,8 +1,6 @@
 package com.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class CloneGraph {
 
@@ -77,4 +75,64 @@ class Node6 {
         val = _val;
         neighbors = _neighbors;
     }
+
+
+    //BFS
+
+
+    /*Node6 cloneGraph(Node6 node) {
+
+
+        // code here
+        if(node == null){
+            return node;
+        }
+
+        Node6 head = node;
+
+        HashMap<Node6,Node6> oldNewMap = new HashMap<>();
+        Queue<Node6> q = new LinkedList<>();
+        // Node newNode = new Node(node.val);
+        q.add(node);
+        while(!q.isEmpty()){
+
+            Node6 oldNode = q.poll();
+            if(oldNewMap.containsKey(oldNode)){
+                Node6 newNode = oldNewMap.get(oldNode);
+                List<Node6> oldNeighbors = oldNode.neighbors;
+                for(Node6 oldN :oldNeighbors){
+                    if(!oldNewMap.containsKey(oldN)){
+                        Node6 newP = new Node6(oldN.val);
+                        oldNewMap.put(oldN, newP);
+                        q.add(oldN);
+                        newNode.neighbors.add(newP);
+                    }else{
+                        Node6 newChild = oldNewMap.get(oldN);
+                        newNode.neighbors.add(newChild);
+                    }
+                }
+            }else{
+                Node6 newN = new Node6(oldNode.val);
+                oldNewMap.put(oldNode, newN);
+                List<Node6> oldNeighbors = oldNode.neighbors;
+                for(Node6 oldN :oldNeighbors){
+                    if(!oldNewMap.containsKey(oldN)){
+                        Node6 newP = new Node6(oldN.val);
+                        oldNewMap.put(oldN, newP);
+                        q.add(oldN);
+                        newN.neighbors.add(newP);
+                    }else{
+                        Node6 newChild = oldNewMap.get(oldN);
+                        newN.neighbors.add(newChild);
+                    }
+                }
+            }
+        }
+
+        // System.out.println("size >> "+ oldNewMap.size());
+        // System.out.println("val >> "+ oldNewMap.get(node.val).val);
+        // System.out.println("size >> "+ oldNewMap.get(node.val).neighbors);
+
+        return    oldNewMap.get(node);
+    }*/
 }
