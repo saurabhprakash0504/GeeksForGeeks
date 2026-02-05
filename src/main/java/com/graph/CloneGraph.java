@@ -6,133 +6,87 @@ public class CloneGraph {
 
     public static void main(String[] args) {
 
-        
 
     }
+
 
     public Node6 cloneGraph(Node6 node) {
-
-        if(node == null){
+        if (node == null) {
             return node;
         }
+        HashMap<Node6, Node6> map = new HashMap<Node6, Node6>();
 
-        HashMap<Node6, Node6> oldToNew = new HashMap<Node6,Node6>();
+        dfs(map, node);
+        bfs(map, node);
 
-        if(!oldToNew.containsKey(node)){
-
-            Node6 newNode = new Node6(node.val, new ArrayList<Node6>());
-            oldToNew.put(node, newNode);
-
-            dfs(node, oldToNew);
-
-
-
-        }
-
-
-
-        return  oldToNew.get(node);
+        return map.get(node);
 
     }
 
-    void dfs(Node6 old, HashMap<Node6, Node6> oldToNew){
+    void dfs(HashMap<Node6, Node6> map, Node6 oldP) {
+        if (map.containsKey(oldP)) {
+            return;
+        }
 
-        Node6 newNode = oldToNew.get(old);
+        Node6 newP = new Node6(oldP.val, new ArrayList<>());
+        map.put(oldP, newP);
 
-        List<Node6> oldNeighbors = old.neighbors;
-        for(Node6 oldN : oldNeighbors){
-            if(!oldToNew.containsKey(oldN)){
-
-                Node6 newN = new Node6(oldN.val, new ArrayList<>());
-                oldToNew.put(oldN, newN);
-                newNode.neighbors.add(newN);
-                dfs(oldN, oldToNew);
+        for (Node6 n : oldP.neighbors) {
+            dfs(map, n);
+            newP.neighbors.add(map.get(n));
+        }
+    }
 
 
-            }else {
+    void bfs(HashMap<Node6,Node6> map, Node6 node){
 
-                Node6 newN = oldToNew.get(oldN);
+        Queue<Node6> queue = new LinkedList<>();
 
-                newNode.neighbors.add(newN);
+        Node6 cloneStart = new Node6(node.val, new ArrayList<>());
+        map.put(node, cloneStart);
+        queue.offer(node);
+
+        while (!queue.isEmpty()) {
+            Node6 oldP = queue.poll();
+            Node6 newP = map.get(oldP);
+
+            for (Node6 nei : oldP.neighbors) {
+
+                // if neighbor not cloned yet, clone + enqueue
+                if (!map.containsKey(nei)) {
+                    Node6 temp = new Node6(nei.val, new ArrayList<>());
+                    map.put(nei, temp);
+                    newP.neighbors.add(temp);
+                    queue.offer(nei);
+                }else {
+                    Node6 temp = map.get(nei);
+                    newP.neighbors.add(temp);
+                }
+
             }
         }
-
-    }
-}
-
-class Node6 {
-    public int val;
-    public List<Node6> neighbors;
-    public Node6() {
-        val = 0;
-        neighbors = new ArrayList<Node6>();
-    }
-    public Node6(int _val) {
-        val = _val;
-        neighbors = new ArrayList<Node6>();
-    }
-    public Node6(int _val, ArrayList<Node6> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
     }
 
 
-    //BFS
+    class Node6 {
+        public int val;
+        public List<Node6> neighbors;
 
-
-    /*Node6 cloneGraph(Node6 node) {
-
-
-        // code here
-        if(node == null){
-            return node;
+        public Node6() {
+            val = 0;
+            neighbors = new ArrayList<Node6>();
         }
 
-        Node6 head = node;
-
-        HashMap<Node6,Node6> oldNewMap = new HashMap<>();
-        Queue<Node6> q = new LinkedList<>();
-        // Node newNode = new Node(node.val);
-        q.add(node);
-        while(!q.isEmpty()){
-
-            Node6 oldNode = q.poll();
-            if(oldNewMap.containsKey(oldNode)){
-                Node6 newNode = oldNewMap.get(oldNode);
-                List<Node6> oldNeighbors = oldNode.neighbors;
-                for(Node6 oldN :oldNeighbors){
-                    if(!oldNewMap.containsKey(oldN)){
-                        Node6 newP = new Node6(oldN.val);
-                        oldNewMap.put(oldN, newP);
-                        q.add(oldN);
-                        newNode.neighbors.add(newP);
-                    }else{
-                        Node6 newChild = oldNewMap.get(oldN);
-                        newNode.neighbors.add(newChild);
-                    }
-                }
-            }else{
-                Node6 newN = new Node6(oldNode.val);
-                oldNewMap.put(oldNode, newN);
-                List<Node6> oldNeighbors = oldNode.neighbors;
-                for(Node6 oldN :oldNeighbors){
-                    if(!oldNewMap.containsKey(oldN)){
-                        Node6 newP = new Node6(oldN.val);
-                        oldNewMap.put(oldN, newP);
-                        q.add(oldN);
-                        newN.neighbors.add(newP);
-                    }else{
-                        Node6 newChild = oldNewMap.get(oldN);
-                        newN.neighbors.add(newChild);
-                    }
-                }
-            }
+        public Node6(int _val) {
+            val = _val;
+            neighbors = new ArrayList<Node6>();
         }
 
-        // System.out.println("size >> "+ oldNewMap.size());
-        // System.out.println("val >> "+ oldNewMap.get(node.val).val);
-        // System.out.println("size >> "+ oldNewMap.get(node.val).neighbors);
+        public Node6(int _val, ArrayList<Node6> _neighbors) {
+            val = _val;
+            neighbors = _neighbors;
+        }
 
-        return    oldNewMap.get(node);
-    }*/
+    }
+
 }
