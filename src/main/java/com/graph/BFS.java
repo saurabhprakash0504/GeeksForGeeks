@@ -36,7 +36,7 @@ public class BFS {
     static List<Integer> bfs(ArrayList<ArrayList<Integer>> al, int startIndex) {
 
         Queue<Integer> queue = new LinkedList<>();
-        boolean[] array = new boolean[al.size()];
+        boolean[] visited = new boolean[al.size()];
         queue.add(startIndex);
         List<Integer> finalList = new ArrayList<>();
 
@@ -44,12 +44,12 @@ public class BFS {
 
             Integer val = queue.poll();
             finalList.add(val);
-            array[val] = true;
+            visited[val] = true;
 
             List<Integer> l = al.get(val);
 
             for (Integer i : l) {
-                if (!array[i] && !queue.contains(i)) {
+                if (!visited[i] && !queue.contains(i)) {
                     queue.add(i);
                 }
             }

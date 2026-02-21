@@ -14,9 +14,6 @@ public class Sort012 {
     }
 
     public void sort012(int[] arr) {
-
-
-
         find2(arr);
     }
 

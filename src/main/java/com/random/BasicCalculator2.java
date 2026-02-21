@@ -6,8 +6,58 @@ public class BasicCalculator2 {
 
         BasicCalculator2 obj = new BasicCalculator2();
         String s = " 3+5 / 2 ";
-        int res = obj.calculate(s);
+        int res = obj.calculate2(s);
         System.out.println(res);
+    }
+
+
+    public int calculate2(String s) {
+
+        int prevVal = 0;
+        char prevSign = '+';
+        int res = 0;
+        int ind = 0;
+        while (ind < s.length()) {
+            Character c = s.charAt(ind);
+            if (Character.isDigit(c)) {
+
+                int curr = 0;
+                while (ind < s.length() && Character.isDigit(s.charAt(ind))) {
+                    curr = curr * 10 + (s.charAt(ind) - '0');
+                    ind++;
+                }
+
+                switch (prevSign) {
+
+                    case '+':
+                        res = res + curr;
+                        prevVal = curr;
+                        break;
+                    case '-':
+                        res = res - curr;
+                        prevVal = -curr;
+                        break;
+                    case '*':
+                        res = res - prevVal;
+                        res = res + (prevVal * curr);
+                        prevVal = curr * prevVal;
+                        break;
+                    case '/':
+                        res = res - prevVal;
+                        res = res + (int) (prevVal / curr);
+                        prevVal = (int) (prevVal / curr);
+                        break;
+                }
+            } else if (c == ' ') {
+                ind++;
+            } else {
+                prevSign = c;
+                ind++;
+            }
+        }
+
+        return res;
+
     }
 
     public int calculate(String s) {
@@ -69,4 +119,6 @@ public class BasicCalculator2 {
         return res;
 
     }
+
+
 }
