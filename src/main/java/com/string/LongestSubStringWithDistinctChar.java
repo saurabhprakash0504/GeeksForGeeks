@@ -15,9 +15,7 @@ public class LongestSubStringWithDistinctChar {
         int left = 0;
         int[] lastIndex = new int[256]; // Assuming extended ASCII characters
 
-        for (int i = 0; i < 256; i++) {
-            lastIndex[i] = -1;
-        }
+        Arrays.fill(lastIndex, -1);
 
         for (int right = 0; right < s.length(); right++) {
             char currentChar = s.charAt(right);
