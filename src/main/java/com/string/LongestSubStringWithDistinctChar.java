@@ -5,38 +5,8 @@ import java.util.Arrays;
 public class LongestSubStringWithDistinctChar {
 
     public static void main(String[] args) {
-       // aabcaaadfazxe
-        System.out.println("secondLast >> "+ findLongestSubString2("aabcaaadfazaxe"));
-        System.out.println("last  >> "+ longestUniqueSubstring("aabcaaadfazaxe"));
-    }
-
-
-
-
-    static int findLongestSubString2(String str){
-        int n = str.length();
-        int[] prev = new int[256];
-        Arrays.fill(prev, -1);
-        int startIndex = 0;
-        int maxLength = 0;
-        int len = 0;
-        for (int i=0; i < n ; i++){
-            char c = str.charAt(i);
-            int index = (int) c;
-            if (prev[index] == -1){
-                 len = i - startIndex +1;
-            } else if (prev [index] > startIndex) {
-                 len = i - prev [index];
-                startIndex = i;
-            } else {
-                 len = i - prev [index];
-
-                startIndex =  prev[index] +1;
-            }
-            maxLength = Integer.max(maxLength, len);
-            prev[index] = i;
-        }
-        return maxLength;
+        String s = "abcadbd";
+        System.out.println(longestUniqueSubstring(s));
     }
 
     //Correct code
