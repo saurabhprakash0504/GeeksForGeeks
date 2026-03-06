@@ -68,6 +68,43 @@ public class KClosestElement {
         }
     }
 
+
+
+        public int[][] kClosest(int[][] points, int k) {
+
+            // Max-heap storing {distance, x, y}
+            PriorityQueue<int[]> maxHeap = new PriorityQueue<>(
+                    (a, b) -> Integer.compare(b[0], a[0])  // compare by distance
+            );
+
+            for (int[] p : points) {
+                int x = p[0];
+                int y = p[1];
+                int dist = x * x + y * y;  // calculate distance
+
+                // Store distance and coordinates
+                maxHeap.offer(new int[]{dist, x, y});
+
+                // Keep only k closest
+                if (maxHeap.size() > k) {
+                    maxHeap.poll();  // remove farthest
+                }
+            }
+
+            // Build result
+            int[][] result = new int[k][2];
+            int i = 0;
+            while (!maxHeap.isEmpty()) {
+                int[] entry = maxHeap.poll();
+                result[i][0] = entry[1];  // x
+                result[i][1] = entry[2];  // y
+                i++;
+            }
+
+            return result;
+        }
+
+
     public static void main(String[] args) {
         int arr[] = {10, 30, 5, 40, 38, 80, 70};
         ClosesetElement closesetElement = new ClosesetElement();

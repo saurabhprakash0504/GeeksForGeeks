@@ -29,30 +29,28 @@ public class DFS {
         System.out.println(l);
     }
 
-    static ArrayList<Integer> dfs(ArrayList<ArrayList<Integer>> al) {
+    static ArrayList<Integer> dfs(ArrayList<ArrayList<Integer>> adj) {
 
-        boolean[] visited = new boolean[al.size()];
+        boolean[] visited = new boolean[adj.size()];
 
         ArrayList<Integer> finalList = new ArrayList<>();
 
-        for (int i = 0; i < al.size(); i++) {
+        for (int i = 0; i < adj.size(); i++) {
             if (!visited[i])
-                dfsTraversal(al, i, visited, finalList);
+                dfsTraversal(adj, i, visited, finalList);
         }
 
         return finalList;
-
-
     }
 
-    static void dfsTraversal(ArrayList<ArrayList<Integer>> al, int startIndex, boolean[] visited, ArrayList<Integer> finalList) {
+    static void dfsTraversal(ArrayList<ArrayList<Integer>> adj, int startIndex, boolean[] visited, ArrayList<Integer> finalList) {
 
         finalList.add(startIndex);
         visited[startIndex] = true;
 
-        for (int i = 0; i < al.get(startIndex).size(); i++) {
-            if (!visited[al.get(startIndex).get(i)]) {
-                dfsTraversal(al, al.get(startIndex).get(i), visited, finalList);
+        for (int i = 0; i < adj.get(startIndex).size(); i++) {
+            if (!visited[adj.get(startIndex).get(i)]) {
+                dfsTraversal(adj, adj.get(startIndex).get(i), visited, finalList);
             }
         }
     }
